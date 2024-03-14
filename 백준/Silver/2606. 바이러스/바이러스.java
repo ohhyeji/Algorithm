@@ -1,25 +1,23 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
 	static int[][] arr;
 	static boolean[] check;
-	static int node, line, start;
-	static int cnt = 0;
 	
+	static int node, line;
+	static int cnt = 0;
 	public static void main(String[] args) throws IOException{
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 		
 		node = Integer.parseInt(br.readLine());
 		line = Integer.parseInt(br.readLine());
-		start = 1;
 		
-		arr = new int [node+1][node+1];
-		check = new boolean[node+1];
+		arr = new int[node + 1][node + 1];
+		check = new boolean[node + 1];
 		
+		StringTokenizer st;
 		for(int i=0; i<line; i++) {
 			st = new StringTokenizer(br.readLine());
 			
@@ -28,21 +26,31 @@ public class Main {
 			
 			arr[a][b] = arr[b][a] = 1;
 		}
-
-		dfs(start);
-		System.out.println(cnt);	
+		
+		bfs(1);
+		
+		System.out.println(cnt);
 	}
 	
-	public static void dfs(int start) {
+	public static void bfs(int start) {
 		check[start] = true;
 		
-		for(int i=0; i<=node; i++) {
-			if(arr[start][i] == 1 && !check[i]) {
-				dfs(i);
-				cnt++;	
+		Queue<Integer> q = new LinkedList<>();
+		q.offer(start);
+		
+		while(!q.isEmpty()) {
+			start = q.poll();
+			
+			for(int i=1; i<=node; i++) {
+				if(arr[start][i] == 1 && !check[i]) {
+					cnt++;
+					q.offer(i);
+					check[i] = true;
+				}
 			}
 		}
+		
+		
 	}
-	
 
 }
